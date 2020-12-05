@@ -93,7 +93,7 @@ RList* result_paths(Graph* g,int max_paths,int nThreads){
     }
 #pragma omp parallel default(none) shared(new,g,max_paths,nv) num_threads(nThreads)
 {
-#pragma omp for
+#pragma omp for schedule(dynamic)
     for(int i = 0; i < nv; i++){
         if(!g->edges[i]){   // Vertex does not exist
             continue;
