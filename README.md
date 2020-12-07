@@ -20,7 +20,7 @@
 
 4.  `test_dij.c` - contains the main function, the `dijkstra` function, and the `result_paths` function which calculates the 10 longest "shortest paths" with the given graph, and return a list (``RList``) of length 10 and sorted by the distances.
 
-## Answers and performance
+## Answers and performance (run on the Ubuntu terminal of Windows machine)
 
 ### the small graph
 
@@ -61,6 +61,12 @@ start vertex 100201, end vertex 150246, distance 103
 ```
 
 ```
+Time costs with 1 thread: 1856.960686s for the first 10000 vertices.
+(There's no guarantee that processing every group of 10000 vertices would have similar time costs. However, once I tried to wait for the whole program to finish, and I decided to give up after 6 hours.
+By calculation, the time costs of processing all 265214 vertices would be around 265214/10000*1856.96s = 49249.1789s, or 13.68 hours)
+```
+
+```
 Time costs with 30 threads: 6916.204690
 ```
 
@@ -72,8 +78,8 @@ The whole process is expected to be a **O((V+E)Vlog(V))** process:
 
 2. Since the dijkstra function has to be applied with each vertex as the starting point, it is executed for V times.
 
-The large graph contains 265214 vertices + 420045 edges, and the small graph contains 6301 vertices + 20777 edges. Based on the above analysis, the time costs of the large graph should be roughly 1500 times that of the small graph. However, in practive, the time costs of the large graph is about 3900 times that of the small graph (both with 30 threads). 
-My guess is that it's partly because the time costs I calculated also contained the time for updating the final result list with the shortest paths calculated with each of the starting vertices. However, this should not have made much difference, since it's supposed to be a O(V) process, with each of the list only containing V nodes. 
+The large graph contains 265214 vertices + 420045 edges, and the small graph contains 6301 vertices + 20777 edges. Based on the above analysis, the time costs of the large graph should be roughly 1500 times that of the small graph. However, in practive, the time costs of the large graph is about 4000 times (one thread result, i.e., 49249.1789/12.383723) that of the small graph.
+My guess is that it's partly because the time costs I calculated also contained the time for updating the final result list with the shortest paths calculated with each of the starting vertices. However, this should not have made much difference, since it's supposed to be a O(V) process, with each of the list only containing 10 nodes. 
 Another possiblity with higher likelihood is that since 2 hours is a very long period, more noises are affecting the process (for example, screen lock of the computer).
 Also, 30 threads may not be an optimal choice. I suppose that calling the threads and allocating tasks among them inside OpenMP implementation also contains time costs.
 
